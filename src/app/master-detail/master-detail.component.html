@@ -1,0 +1,10 @@
+count:{{count$|async}}
+<ng-container *ngIf="(post$|async) as posts;else spin">
+    <div style="display: flex; flex-direction: row">
+        <app-master [posts]="posts"></app-master>
+        <app-detail></app-detail>
+    </div>
+</ng-container>
+<ng-template #spin>
+    spin
+</ng-template>

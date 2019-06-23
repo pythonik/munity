@@ -1,27 +1,45 @@
 # Munity
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.2.
+Munity is an opinionated Angular state management library based on [Immer.js](https://github.com/immerjs/immer). This library is heavily inspired by [ngrx](), [redux-observable]().   
+It is currently in progress work.
 
-## Development server
+## Concepts
+* *Effect* is an asynchronous operation with state mutation.
+* *Mutation* is a function takes the current state, payload as input and mutate teh state in its body.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Effect
+```ts
+@Injectable({providedIn: 'root'})
+export class SideEffectOfLoadPost implements IResultOfEffect<IPost[], State, IPost[]> {
+    readonly action: ActionID = 'SET_POSTS';
 
-## Code scaffolding
+    constructor(private readonly api: BackendService) {
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+    }
 
-## Build
+    selector(state: State) {
+        return state.posts;
+    }
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+    task(): Observable<IPost[]> {
+        return this.api.getPostList();
+    }
 
-## Running unit tests
+}
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Mutation
+Mutation is just a function placed in store config object, perform state directly on current state.
+```ts
+const postStoreConfig: IStoreConfig<State> = {
+    init: {posts: [], name: '', selected: null},
+    mutations: {
+        SET_POSTS: (current: State, payload: IPost[]) => {
+            current.posts = payload;
+        },
+        SET_SELECTED: (current: State, payload: IPost) => {
+            current.selected = payload;
+        }
+    }
+};
+```
