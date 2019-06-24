@@ -1,24 +1,50 @@
-# Store
+# Munity
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.1.
+Munity is an opinionated Angular state management library based on [Immer.js](https://github.com/immerjs/immer). This library is heavily inspired by [ngrx](), [redux-observable]().   
+It is currently **WORK IN PROGRESS**, but It is fully functional.
 
-## Code scaffolding
+To run the sample application
+```npm install``` , then ```ng serve```
 
-Run `ng generate component component-name --project store` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project store`.
-> Note: Don't forget to add `--project store` or else it will be added to the default project in your `angular.json` file. 
 
-## Build
+## Concepts
+* *Effect* is an asynchronous operation with state mutation.
+* *Mutation* is a function takes the current state, payload as input and mutate teh state in its body.
 
-Run `ng build store` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Effect
+To make an effect just implement the ```Effect``` interface, and provide async operation in task function. Implement ```IResultOfEffect``` to provide a selector function to retrieve the result of state mutation
+```ts
+@Injectable({providedIn: 'root'})
+export class SideEffectOfLoadPost implements IResultOfEffect<IPost[], State, IPost[]> {
+    readonly action: ActionID = 'SET_POSTS';
 
-## Publishing
+    constructor(private readonly api: BackendService) {
 
-After building your library with `ng build store`, go to the dist folder `cd dist/store` and run `npm publish`.
+    }
 
-## Running unit tests
+    selector(state: State) {
+        return state.posts;
+    }
 
-Run `ng test store` to execute the unit tests via [Karma](https://karma-runner.github.io).
+    task(): Observable<IPost[]> {
+        return this.api.getPostList();
+    }
 
-## Further help
+}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+### Mutation
+Mutation is just a function placed in store config object, perform state directly on current state.
+```ts
+const postStoreConfig: IStoreConfig<State> = {
+    init: {posts: [], name: '', selected: null},
+    mutations: {
+        SET_POSTS: (current: State, payload: IPost[]) => {
+            current.posts = payload;
+        },
+        SET_SELECTED: (current: State, payload: IPost) => {
+            current.selected = payload;
+        }
+    }
+};
+```

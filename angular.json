@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "munity": {
+    "munity-dev": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/munity",
+            "outputPath": "dist/munity-dev",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -120,7 +120,7 @@
         }
       }
     },
-    "store": {
+    "munity": {
       "projectType": "library",
       "root": "projects/store",
       "sourceRoot": "projects/store/src",
@@ -155,5 +155,5 @@
         }
       }
     }},
-  "defaultProject": "munity"
+  "defaultProject": "munity-dev"
 }

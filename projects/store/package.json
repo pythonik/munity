@@ -1,9 +1,28 @@
 {
-  "name": "store",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^8.0.1",
-    "@angular/core": "^8.0.1",
-    "immer": "^3.1.3"
-  }
+    "name": "@kun.s/munity",
+    "version": "0.0.1",
+    "author": "Kun Su",
+    "description": "An opinionated state management library for Angular work with immer.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pythonik/munity.git"
+    },
+    "keywords": [
+        "immutablity",
+        "angular",
+        "state management",
+        "typescript",
+        "javascript",
+        "rxjs",
+        "angular store",
+        "store",
+        "observable data stores",
+        "redux"
+    ],
+    "license": "MIT",
+    "peerDependencies": {
+        "@angular/common": "^8.0.1",
+        "@angular/core": "^8.0.1",
+        "immer": "^3.1.3"
+    }
 }

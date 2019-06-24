@@ -1,7 +1,7 @@
 # Munity
 
 Munity is an opinionated Angular state management library based on [Immer.js](https://github.com/immerjs/immer). This library is heavily inspired by [ngrx](), [redux-observable]().   
-It is currently work in progress, but It is fully functional.
+It is currently **WORK IN PROGRESS**, but It is fully functional.
 
 To run the sample application
 ```npm install``` , then ```ng serve```
@@ -12,6 +12,7 @@ To run the sample application
 * *Mutation* is a function takes the current state, payload as input and mutate teh state in its body.
 
 ### Effect
+To make an effect just implement the ```Effect``` interface, and provide async operation in task function. Implement ```IResultOfEffect``` to provide a selector function to retrieve the result of state mutation
 ```ts
 @Injectable({providedIn: 'root'})
 export class SideEffectOfLoadPost implements IResultOfEffect<IPost[], State, IPost[]> {
