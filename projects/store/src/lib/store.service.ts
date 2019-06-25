@@ -4,6 +4,9 @@ import {distinctUntilChanged, first, flatMap, map, tap} from 'rxjs/operators';
 import produce from 'immer';
 import {ACTION_NOT_DEFINED, DISPATCH_IS_SYNCHRONOUS} from './store.constants';
 
+
+const fastDeepClone = (arg) => JSON.parse(JSON.stringify(arg));
+
 export abstract class Munity<S> {
     private readonly actionMap: IMutationMap<S>;
     private readonly store: BehaviorSubject<S>;
@@ -11,11 +14,11 @@ export abstract class Munity<S> {
 
 
     protected constructor(private readonly config: IStoreConfig<S>) {
-        if (!config) {
-            throw new Error('store config is required');
+        if (!config || !config.init || !config.mutations) {
+            throw new Error('store config can not be empty or null');
         }
         this.actionMap = config.mutations;
-        this.store = new BehaviorSubject(config.init);
+        this.store = new BehaviorSubject(fastDeepClone(config.init));
     }
 
     take<T, R>(effect: IResultOfEffect<T, S, R>): Observable<R> {
