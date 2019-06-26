@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/pythonik/munity/badge.svg?branch=master)](https://coveralls.io/github/pythonik/munity?branch=master)
+[![Build Status](https://travis-ci.com/pythonik/munity.svg?branch=master)](https://travis-ci.com/pythonik/munity)
 # Munity
 
 Munity is an opinionated Angular state management library based on [Immer.js](https://github.com/immerjs/immer). This library is heavily inspired by [ngrx](), [redux-observable]().   
