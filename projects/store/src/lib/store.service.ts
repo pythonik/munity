@@ -2,7 +2,7 @@ import {IAction, IEffect, IMutationMap, IResultOfEffect, IStoreConfig} from './s
 import {BehaviorSubject, Observable} from 'rxjs';
 import {distinctUntilChanged, first, flatMap, map, tap} from 'rxjs/operators';
 import produce from 'immer';
-import {ACTION_NOT_DEFINED, DISPATCH_IS_SYNCHRONOUS} from './store.constants';
+import {ACTION_NOT_DEFINED, DISPATCH_IS_NOT_ALLOWED_SUBSCRIBER} from './store.constants';
 
 
 const fastDeepClone = (arg) => JSON.parse(JSON.stringify(arg));
@@ -10,7 +10,7 @@ const fastDeepClone = (arg) => JSON.parse(JSON.stringify(arg));
 export abstract class Munity<S> {
     private readonly actionMap: IMutationMap<S>;
     private readonly store: BehaviorSubject<S>;
-    private isDispatching: boolean;
+    private isDispatching = false;
 
 
     protected constructor(private readonly config: IStoreConfig<S>) {
@@ -35,11 +35,15 @@ export abstract class Munity<S> {
     }
 
     snapshot(): S;
+    snapshot<R>(selector: (current: S) => R): R;
     snapshot<R>(selector?: (current: S) => R): R | S {
+        let result: R | S;
         if (selector) {
-            return selector(this.store.getValue());
+            result = selector(this.store.getValue());
+        } else {
+            result = this.store.getValue();
         }
-        return this.store.getValue();
+        return fastDeepClone(result);
     }
 
     select(): Observable<S> ;
@@ -53,8 +57,9 @@ export abstract class Munity<S> {
 
     dispatch(action: IAction): void {
         if (this.isDispatching) {
-            throw new Error(DISPATCH_IS_SYNCHRONOUS);
+            throw new Error(DISPATCH_IS_NOT_ALLOWED_SUBSCRIBER);
         }
+
         if (!this.actionMap[action.name]) {
             throw new Error(ACTION_NOT_DEFINED);
         }
