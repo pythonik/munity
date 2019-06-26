@@ -9,7 +9,7 @@ To run the sample application
 
 ## Concepts
 * *Effect* is an asynchronous operation with state mutation.
-* *Mutation* is a function takes the current state, payload as input and mutate teh state in its body.
+* *Mutation* is a function takes the current state, payload as input and mutate the state in its body.
 
 ### Effect
 To make an effect just implement the ```Effect``` interface, and provide async operation in task function. Implement ```IResultOfEffect``` to provide a selector function to retrieve the result of state mutation
