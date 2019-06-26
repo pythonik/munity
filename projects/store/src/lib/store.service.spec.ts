@@ -175,7 +175,7 @@ describe('Store', () => {
 
         });
 
-        it.only('throws error if attempt to dispatch in middle of state change', (done) => {
+        it('throws error if attempt to dispatch in middle of state change', (done) => {
             const entireState: Observable<IStateModel> = store.select();
             entireState.subscribe((data: IStateModel) => {
                 try {
