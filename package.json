@@ -7,8 +7,7 @@
         "build": "ng build",
         "test": "ng test store",
         "lint": "ng lint",
-        "e2e": "ng e2e",
-        "coveralls": "ng test store && cat ./coverage/lcov.info | coveralls"
+        "e2e": "ng e2e"
     },
     "dependencies": {
         "@angular/animations": "~8.0.0",
