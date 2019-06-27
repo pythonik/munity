@@ -28,10 +28,14 @@ export abstract class Munity<S> {
         }));
     }
 
-    do<T>(effect: IEffect<T, S>) {
-        effect.task().pipe(first(),
-            tap((taskResult: T) => this.dispatch({name: effect.action, payload: taskResult})))
-            .subscribe();
+    do<T>(effect: IEffect<T, S>, run: boolean): void | Observable<T> {
+        const task = effect.task().pipe(first(),
+            tap((taskResult: T) => this.dispatch({name: effect.action, payload: taskResult})));
+        if (run) {
+            task.subscribe();
+        } else {
+            return task;
+        }
     }
 
     snapshot(): S;

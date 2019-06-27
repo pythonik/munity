@@ -1,6 +1,6 @@
 import {Munity} from './store.service';
-import {IStoreConfig} from './store.models';
-import {Observable} from 'rxjs';
+import {IEffect, IStoreConfig} from './store.models';
+import {Observable, of} from 'rxjs';
 import {DISPATCH_IS_NOT_ALLOWED_SUBSCRIBER} from './store.constants';
 
 interface IPost {
@@ -188,6 +188,32 @@ describe('Store', () => {
                     done();
                 }
             });
+        });
+    });
+
+    describe('do', () => {
+        const INSERT = 'INSERT';
+        let store: TestStore;
+        beforeEach(
+            () => {
+                store = new TestStore({
+                    init: getTestInitState(),
+                    mutations: {
+                        INSERT: (current: IStateModel, payload: IPost) => {
+                            current.posts.push(payload);
+                        }
+                    }
+                });
+            }
+        );
+        it('perform state mutation as defined', (done) => {
+            const loadOnePostAndInsertToStore = {
+                action: INSERT,
+                task: jest.fn(() => of(getTestPostConstant()))
+            } as unknown as IEffect<IPost, IStateModel>;
+            store.dispatch = jest.fn();
+            (store.do(loadOnePostAndInsertToStore, false) as Observable<IPost>)
+                .subscribe(() => done());
         });
     });
 });
