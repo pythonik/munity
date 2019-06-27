@@ -1,5 +1,5 @@
 import {Munity} from './store.service';
-import {IEffect, IStoreConfig} from './store.models';
+import {IEffect, IResultOfEffect, IStoreConfig} from './store.models';
 import {Observable, of} from 'rxjs';
 import {DISPATCH_IS_NOT_ALLOWED_SUBSCRIBER} from './store.constants';
 
@@ -213,7 +213,42 @@ describe('Store', () => {
             } as unknown as IEffect<IPost, IStateModel>;
             store.dispatch = jest.fn();
             (store.do(loadOnePostAndInsertToStore, false) as Observable<IPost>)
-                .subscribe(() => done());
+                .subscribe(() => {
+                    expect(loadOnePostAndInsertToStore.task).toHaveBeenCalled();
+                    expect(store.dispatch).toHaveBeenCalled();
+                    done();
+                });
+        });
+    });
+
+    describe('take', () => {
+        const INSERT = 'INSERT';
+        let store: TestStore;
+        beforeEach(
+            () => {
+                store = new TestStore({
+                    init: getTestInitState(),
+                    mutations: {
+                        INSERT: (current: IStateModel, payload: IPost) => {
+                            current.posts.push(payload);
+                        }
+                    }
+                });
+            }
+        );
+        it('perform state mutation as defined', (done) => {
+            const loadOnePostAndInsertToStore = {
+                action: INSERT,
+                task: jest.fn(() => of(getTestPostConstant())),
+                selector: jest.fn((state: IStateModel) => state.posts)
+            } as IResultOfEffect<IPost, IStateModel, IPost[]>;
+            store.dispatch = jest.fn();
+            store.take(loadOnePostAndInsertToStore).subscribe(() => {
+                expect(loadOnePostAndInsertToStore.task).toHaveBeenCalled();
+                expect(store.dispatch).toHaveBeenCalled();
+                expect(loadOnePostAndInsertToStore.selector).toHaveBeenCalled();
+                done();
+            });
         });
     });
 });

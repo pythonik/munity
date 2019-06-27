@@ -28,7 +28,7 @@ export abstract class Munity<S> {
         }));
     }
 
-    do<T>(effect: IEffect<T, S>, run: boolean): void | Observable<T> {
+    do<T>(effect: IEffect<T, S>, run?: boolean): void | Observable<T> {
         const task = effect.task().pipe(first(),
             tap((taskResult: T) => this.dispatch({name: effect.action, payload: taskResult})));
         if (run) {
