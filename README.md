@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/pythonik/munity/badge.svg?branch=master)](https://coveralls.io/github/pythonik/munity?branch=master)
+[![Coverage Status](https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_95.svg)](https://coveralls.io/github/pythonik/munity?branch=master)
 [![Build Status](https://travis-ci.com/pythonik/munity.svg?branch=master)](https://travis-ci.com/pythonik/munity)
 # ![](./icon.png) Munity 
 
