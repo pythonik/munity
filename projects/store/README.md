@@ -21,7 +21,7 @@ interface StateModel {
     loading: false
 }
 // select substate
-stateChange = this.store.select((current)=>{current.posts});
+stateChange = this.store.select((current)=>current.posts);
 // select entire store
 stateChange = this.store.select();
 ```
@@ -32,7 +32,7 @@ interface StateModel {
     loading: false
 }
 // select substate
-current = this.store.snapshot((current)=>{current.posts});
+current = this.store.snapshot((current)=>current.posts);
 // select entire store
 current = this.store.snapshot();
 ```

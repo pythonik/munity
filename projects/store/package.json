@@ -1,6 +1,6 @@
 {
     "name": "@kun.s/munity",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Kun Su",
     "description": "An opinionated state management library for Angular work with immer.js",
     "repository": {
